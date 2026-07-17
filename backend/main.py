@@ -10,7 +10,7 @@ from datetime import timedelta
 import pandas as pd
 import numpy as np
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -35,13 +35,13 @@ except ImportError:
     def recursive_multi_step_forecast(model, df, horizon): return np.zeros(horizon)
     def inverse_transform_predictions(scaler, scaled_data): return scaled_data
 
-# Initialize FastAPI app
-app = FastAPI(title="Quantitative Forecasting Gateway")
 
-# Configure CORS Security Setup
+app = FastAPI()
+
+# Guarantee routing networks allow decoupled calls
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # Allows cross-origin requests from Vercel dynamic static domains
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
